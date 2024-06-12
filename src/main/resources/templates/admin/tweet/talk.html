@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+  <head>
+    <meta charset="UTF-8" th:remove="tag">
+  </head>
+  <body>
+    <a layout:fragment="content">
+		<form th:action="@{/microBlog/admin/tweet/create}" th:object="${tweet}" method="post">
+	        <ul th:if="${#fields.hasErrors()}" class="alert alert-danger" role="alert">
+	          <li th:each="err : ${#fields.errors('*')}">
+	            <span th:text="${err}"></span>
+	          </li>
+	        </ul>
+			
+		<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">		
+			<th>いま、何しているの？</th>
+		<div class="form-group" >
+		   <textarea class="tweet-control" type="text" id="body" th:field="*{body}"></textarea>
+		 </div>
+		 <div>
+          <input class="btn btn-tweet" type="submit" value="つぶやく">
+      	</div>
+		</div>
+		</form>
+
+	  <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+		<tr th:each="tweet: ${tweets}" th:object="${tweet}">
+				<a th:href="@{/microBlog/admin/tweet/view/{id}(id=*{id})}" class="nav-tweet" th:text="*{user.nickname}"></a>
+			
+			<th:if="${ftweet != null}">
+		        <a th:href="@{/microBlog/admin/favorite/create/{id}(id=*{id})}" class="nav-tweet">お気に入りに追加</a>
+			</th>
+		    <div id="tubuyaku">
+				<div th:text="*{body}"></div>
+				<a th:href="@{/microBlog/admin/tweet/view/{id}(id=*{id})}" th:text="*{#dates.format(createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></a>
+				<div id="boder"></div>
+	    	</div>
+		</tr>
+	  </div>
+	</a>
+  </body>
+</html>

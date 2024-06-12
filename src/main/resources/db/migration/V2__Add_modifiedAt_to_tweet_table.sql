@@ -1,0 +1,1 @@
+ALTER TABLE tweet ADD modified_at datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '最終更新時刻';

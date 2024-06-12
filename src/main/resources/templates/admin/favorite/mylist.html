@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+  <head>
+    <meta charset="UTF-8" th:remove="tag">
+  </head>
+  <body>
+    <div layout:fragment="content">
+		<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+			
+				<tr th:each="user: ${user}" >
+					<td th:text="${user.nickname}"></td>
+					<th>さんのお気に入り</th>
+				</tr>
+
+
+			<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+				<tr th:each="favorite: ${favorites}" th:object="${favorite}">
+					<a th:href="@{/microBlog/admin/tweet/view/{tweetId}(tweetId=*{tweet.id})}" class="nav-tweet" th:text="*{tweet.user.nickname}"></a>
+			        <a th:href="@{/microBlog/admin/favorite/create/{tweetId}(tweetId=*{tweet.id})}" class="nav-tweet">お気に入りに追加</a>
+				<div id="tubuyaku">
+					<div th:text="*{tweet.body}"></div>
+						<a th:href="@{/microBlog/admin/tweet/view/{id}(id=*{id})}" th:text="*{#dates.format(createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></a>
+					<div id="boder"></div>
+				</div>
+				</tr>
+	  		</div>
+	
+        </div>
+    </div>
+  </body>
+</html>
