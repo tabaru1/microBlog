@@ -21,30 +21,37 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "follow")
-public class Follow  {
+public class Follow {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-//	@Column(name = "userId", nullable = false)
-//	private String followed;
+	
+	@ManyToOne
+	@JoinColumn(name = "userId", nullable = false)
+    private User followed;
+
+
+	@ManyToOne
+	@JoinColumn(name = "followingUserId", nullable = false)
+    private User following;
+
+//	@ManyToOne
+//	@JoinColumn(name = "userId")
+//	private User user;
 //	
-//	@Column(name = "followingUserId", nullable = false)
-//    private String following;
-	
-	
-	@ManyToOne
-	@JoinColumn(name = "followingUserId")
-	private Follow follow;
-	
-	@ManyToOne
-	@JoinColumn(name = "tweetId")
-	private Tweet tweet;
+//	@ManyToOne
+//	@JoinColumn(name = "userId")
+//	private User user;
 	
 //	@ManyToOne
+//	@JoinColumn(name = "tweetId")
+//	private Tweet tweet;
+
+//	@ManyToOne
 //	@JoinColumn(name = "followingUserId")
-//	private User follows;
+//	private User followingUser;
 
 	
 }

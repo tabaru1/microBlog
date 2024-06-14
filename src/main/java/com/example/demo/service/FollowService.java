@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.common.DataNotFoundException;
 import com.example.demo.dao.BaseDao;
+import com.example.demo.dao.FollowDao;
 import com.example.demo.entity.Follow;
+import com.example.demo.entity.User;
 
 @Service
 public class FollowService implements BaseService<Follow> {
 	@Autowired
 	private BaseDao<Follow> dao;
+	@Autowired
+	private FollowDao followdao;
 
 	@Override
 	public List<Follow> findAll() {
@@ -34,8 +38,26 @@ public class FollowService implements BaseService<Follow> {
 		dao.deleteById(id);
 	}
 	
-//	public List<User> findByFollwingUserId(Integer follwingUserId) throws DataNotFoundException {
-//		return followdao.findByFollwingUserId(follwingUserId);
-//	}
-//	
+	public Follow findByFollowingAndFollowed(User following, User followed)  {
+		try {
+			return followdao.findByFollowingAndFollowed(following, followed);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public List<Follow> findByUser(User user) throws DataNotFoundException {
+		return followdao.findByUser(user);
+	}
+
+	public List<Integer> findByFollowingIdAndFollowedId(Integer userId, Integer followingUserId) {
+		return followdao.findByFollowingIdAndFollowedId(userId, followingUserId);
+
+	}
+
+	public List<Follow> findByFollowing(User following) {
+		return followdao.findByFollowing(following);
+	}
+	
+
 }

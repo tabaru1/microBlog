@@ -1,1 +1,3 @@
-ALTER TABLE favorite ADD   created_at datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日';
+ALTER TABLE follow DROP CONSTRAINT user_id;
+ALTER TABLE follow DROP CONSTRAINT following_user_id;
+ALTER TABLE follow ADD CONSTRAINT UNIQUE(user_id, following_user_id);

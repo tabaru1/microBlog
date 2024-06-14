@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.entity.Favorite;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Integer>{
-	public List<Favorite> findByUserId(int userId);
+	public List<Favorite> findByUserIdOrderByCreatedAtDesc(int userId);
 	public Favorite findByTweetIdAndUserId(Integer tweetId, Integer id);
 }

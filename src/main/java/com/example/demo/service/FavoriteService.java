@@ -50,5 +50,6 @@ public class FavoriteService implements BaseService<Favorite> {
 			return null;
 		}
 	}
+
 	
 }

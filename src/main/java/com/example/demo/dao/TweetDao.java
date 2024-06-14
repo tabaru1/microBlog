@@ -18,6 +18,12 @@ public class TweetDao implements BaseDao<Tweet> {
 	public List<Tweet> findAll() {
 		return repository.findAll();
 	}
+	
+//	@Override
+//	public List<Tweet> findAll() {
+//		return repository.findAll(
+//				Sort.by(Sort.Direction.ASC, "id"));
+//	}
 
 	@Override
 	public Tweet findById(Integer id) throws DataNotFoundException {
@@ -40,12 +46,22 @@ public class TweetDao implements BaseDao<Tweet> {
 	}
 	
 	public List<Tweet> findByUserId(Integer userId) throws DataNotFoundException {
-		List<Tweet> tweets = this.repository.findByUserId(userId);
+		List<Tweet> tweets = this.repository.findByUserIdOrderByCreatedAtDesc(userId);
 		if (tweets == null) {
 			throw new DataNotFoundException();
 		}
 		return tweets;
 	}
+
+	public List<Tweet> findByUserIdIn(List<Integer> userIds) throws DataNotFoundException {
+		List<Tweet> twu = this.repository.findByUserIdInOrderByCreatedAtDesc(userIds);
+		if (twu == null) {
+			throw new DataNotFoundException();
+		}
+		return twu;
+	}
+
+
 	
 
 

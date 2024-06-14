@@ -45,8 +45,17 @@ public class FavoriteController {
 			User userData = userService.findByEmail(username);
 			User userId = userService.findById(userData.getId());
 			model.addAttribute("user", userId);
+			
 			List<Favorite> favorites= favoriteService.findByUserId(userData.getId());
+			//Collections.reverse(favorites);//タイムラインで時系列、上に表示
 			model.addAttribute("favorites", favorites);
+//			List<Favorite> fav = new ArrayList<>();
+//			for (Favorite value : favorites) {
+//				fav.add(value);
+//			}
+			model.addAttribute("favorites", favorites);
+			Favorite ftweet = favoriteService.findByTweetIdAndUserId(tweetId,  userData.getId());
+			model.addAttribute("ftweet", ftweet);
 		} catch (DataNotFoundException e) {
 			FlashData flash = new FlashData().danger("該当データがありません");
 			ra.addFlashAttribute("flash", flash);
@@ -82,6 +91,23 @@ public class FavoriteController {
 			}
 		ra.addFlashAttribute("flash", flash);
 		return "redirect:/microBlog/admin/tweet/talk";
+	}
+	
+	@GetMapping(value = "/delete/{tweetId}")
+	public String delete(@PathVariable Integer tweetId, Favorite favorite, Model model,
+			@AuthenticationPrincipal UserDetails userDetails, RedirectAttributes redirectAttr) {
+		try {
+			String username = userDetails.getUsername();
+			User userData = userService.findByEmail(username);
+			Favorite fu = favoriteService.findByTweetIdAndUserId(tweetId, userData.getId());
+			favoriteService.deleteById(fu.getId());
+			FlashData flash = new FlashData().success("お気に入り解除しました");
+			redirectAttr.addFlashAttribute("flash", flash);
+		} catch (Exception e) {
+			FlashData flash = new FlashData().danger("該当データがありません");
+			redirectAttr.addFlashAttribute("flash", flash);
+		}
+		return "redirect:/microBlog/admin/favorite/mylist";		
 	}
 	
 	

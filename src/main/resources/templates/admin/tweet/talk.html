@@ -24,15 +24,15 @@
 		</form>
 
 	  <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-		<tr th:each="tweet: ${tweets}" th:object="${tweet}">
-				<a th:href="@{/microBlog/admin/tweet/view/{id}(id=*{id})}" class="nav-tweet" th:text="*{user.nickname}"></a>
+		<tr th:each="tweet: ${tweets}" th:object="${tweet}" >
+				<a th:href="@{/microBlog/admin/tweet/view/{userId}(userId=*{user.id})}" class="nav-tweet" th:text="${tweet.user.nickname}"></a>
 			
-			<th:if="${ftweet != null}">
-		        <a th:href="@{/microBlog/admin/favorite/create/{id}(id=*{id})}" class="nav-tweet">お気に入りに追加</a>
-			</th>
-		    <div id="tubuyaku">
+				<a th:if="${#lists.contains(tweetIds, tweet.id)}" class="nav-tweet"></a>
+				<a th:unless="${#lists.contains(tweetIds,tweet.id)}" th:href="@{/microBlog/admin/favorite/create/{id}(id=*{id})}" class="nav-tweet">お気に入りに追加</a>
+
+				<div id="tubuyaku">
 				<div th:text="*{body}"></div>
-				<a th:href="@{/microBlog/admin/tweet/view/{id}(id=*{id})}" th:text="*{#dates.format(createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></a>
+				<a th:href="@{/microBlog/admin/tweet/view2/{id}(id=*{id})}" th:text="*{#dates.format(createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></a>
 				<div id="boder"></div>
 	    	</div>
 		</tr>

@@ -19,8 +19,6 @@ import com.example.demo.service.FollowService;
 import com.example.demo.service.TweetService;
 import com.example.demo.service.UserService;
 
-import jakarta.validation.Valid;
-
 @Controller
 @RequestMapping("/microBlog/admin/follow")
 public class FollowController {
@@ -35,34 +33,35 @@ public class FollowController {
 	/*
 	 * フォローする
 	 */
-	@GetMapping(value = "/create/{id}")
-	public String follow(@PathVariable Integer id,@Valid Follow follow,BindingResult result, Model model, @AuthenticationPrincipal UserDetails user,RedirectAttributes ra, Integer userId)  {
+	@GetMapping(value = "/create/{userId}")
+	public String follow(@PathVariable Integer userId,Follow follow, BindingResult result, Model model, @AuthenticationPrincipal UserDetails user,RedirectAttributes ra)  {
 		FlashData flash;
 		try {
 			String username = user.getUsername();
 			User userData = userService.findByEmail(username);
-//			tweet.setUser(userService.findById(userData.getId()));
-//			Follow followingUser = follow.getId();
-			Integer followingUser = userData.getId();
-			Integer followedUser = tweetService.findById(id).getUser().getId();
-//			follow.setUser(followService.findById(followingUser.getUserId()));
-//			follow.setFollowing(tweetService.findById(followedUser.getId()));	
-//			List<User> follows = userService.findByFollwingUserId(userData.getId());
-			if (followingUser != null && followedUser != null && !followingUser.equals(followedUser)) {
-            //フォローする
-			  followService.save(follow);
-			  return "redirect:/microBlog/admin/user/list";
-       } else {
-           return "フォローを失敗しました。";
-       }
-//			else {
-//				return "redirect:/microBlog/admin/user/list";
-//			}
+			User followed = userService.findById(userData.getId());
+			User following = userService.findById(userId);
+			
+			
+			Follow follower = followService.findByFollowingAndFollowed(following,  followed);
+			if(follower != null ) {
+				return "redirect:/microBlog/admin/user";
+			}
+			else {
+				follow = new Follow();
+	            follow.setFollowing(following);
+	            follow.setFollowed(followed);
+	            followService.save(follow);
+	    		flash = new FlashData().success("フォローが登録されました");
+			}
 		} catch (DataNotFoundException e) {
 			flash = new FlashData().danger("処理中にエラーが発生しました");
-		}
+			ra.addFlashAttribute("flash", flash);
+			return "redirect:/microBlog/admin/user";
+			}
 		ra.addFlashAttribute("flash", flash);
-		return "redirect:/microBlog/admin/user/list";
+		return "redirect:/microBlog/admin/user";
 	}
-
+	
+	
 }

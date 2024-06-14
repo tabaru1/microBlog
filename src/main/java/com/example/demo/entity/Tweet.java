@@ -1,17 +1,12 @@
 package com.example.demo.entity;
 
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -32,6 +27,7 @@ public class Tweet  extends AbstractEntity{
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 
 	@ManyToOne
 	@JoinColumn(name = "userId")
@@ -42,7 +38,7 @@ public class Tweet  extends AbstractEntity{
 	@NotEmpty(message = "本文は必須入力です")
 	private String body;
 	
-	@OneToMany(mappedBy = "tweet", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-	List<Follow> follows;
+//	@OneToMany(mappedBy = "tweet", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+//	List<Follow> follows;
 
 }

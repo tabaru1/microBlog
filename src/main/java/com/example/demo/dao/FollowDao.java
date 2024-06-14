@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.common.DataNotFoundException;
 import com.example.demo.entity.Follow;
+import com.example.demo.entity.User;
 import com.example.demo.repository.FollowRepository;
 
 @Repository
@@ -39,8 +40,27 @@ public class FollowDao implements BaseDao<Follow> {
 		}
 	}
 
-//	public Follow findByFollwingUserId(Integer follwingUserId) {
-//	}
+	public Follow findByFollowingAndFollowed(User following, User followed) throws DataNotFoundException{
+		return repository.findByFollowingAndFollowed(following, followed);
+	}
+
+
+	public List<Follow> findByUser(User user) throws DataNotFoundException {
+		List<Follow> follows = repository.findByFollowed(user);
+		if (follows == null) {
+			throw new DataNotFoundException();
+		}
+		return follows;
+	}
+
+	public List<Integer> findByFollowingIdAndFollowedId(Integer userId, Integer followingUserId) {
+		return repository.findByFollowingIdAndFollowedId(userId, followingUserId);
+	}
+
+	public List<Follow> findByFollowing(User following) {
+		return repository.findByFollowing(following);
+	}
+
 	
 //	public List<Follow> findByUserId(Integer follwingUserId) throws DataNotFoundException {
 //		List<Follow> follows = this.repository.findByFollwingUserId(follwingUserId);

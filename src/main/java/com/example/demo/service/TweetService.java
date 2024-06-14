@@ -40,5 +40,9 @@ public class TweetService implements BaseService<Tweet> {
 	public List<Tweet> findByUserId(Integer userId) throws DataNotFoundException {
 		return tweetdao.findByUserId(userId);
 	}
+
+	public List<Tweet> findByUserIdIn(List<Integer> userIds) throws DataNotFoundException {
+		return tweetdao.findByUserIdIn(userIds);
+	}
 	
 }

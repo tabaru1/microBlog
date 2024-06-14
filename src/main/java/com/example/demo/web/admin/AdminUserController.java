@@ -1,5 +1,6 @@
 package com.example.demo.web.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.common.DataNotFoundException;
 import com.example.demo.common.FlashData;
 import com.example.demo.common.ValidationGroups.Update;
+import com.example.demo.entity.Follow;
 import com.example.demo.entity.User;
+import com.example.demo.service.FavoriteService;
+import com.example.demo.service.FollowService;
 import com.example.demo.service.UserService;
 
 @Controller
@@ -26,6 +30,10 @@ import com.example.demo.service.UserService;
 public class AdminUserController {
 	@Autowired
 	UserService userService;
+	@Autowired
+	FollowService followService;
+	@Autowired
+	FavoriteService favoriteService;
 
 	/*
 	 * ユーザ一覧表示
@@ -67,10 +75,18 @@ public class AdminUserController {
 	public String list(@AuthenticationPrincipal UserDetails user,Model model, Integer id, RedirectAttributes ra) throws DataNotFoundException {
 		String username = user.getUsername();
 		User userData = userService.findByEmail(username);
-		User userId = userService.findById(userData.getId());
-		model.addAttribute("user", userId);
+		User uId = userService.findById(userData.getId());
+		model.addAttribute("user", uId);
 		List<User> users = userService.findByIdNot(userData.getId());
 		model.addAttribute("users", users);
+		
+		 //UserControllerでListにuser_idを集める
+		List<Follow> follows = followService.findByUser(userData);
+		List<Integer> userIds = new ArrayList<>();
+		for (Follow value : follows) {
+			userIds.add(value.getFollowing().getId());
+		}
+		model.addAttribute("userIds", userIds);
 	    return "admin/user/list";
 	}
 	/*

@@ -122,9 +122,9 @@ public class User extends AbstractEntity implements UserDetails {
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	List<Tweet> tweets;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "userId")
-//	private Follow follow;
+	@OneToMany(mappedBy = "followed", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	List<Follow> followed;
 	
-
+	@OneToMany(mappedBy = "following", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	List<Follow> following;
 }
