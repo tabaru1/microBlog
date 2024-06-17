@@ -132,6 +132,7 @@ th{
 	height: 30px;
 	width: 350px;
 	background-color: #c7dbe9;
+	padding-left: 10px;
 }
 
 
@@ -162,6 +163,14 @@ div.col-sm-10.main.mx-auto{
 span{
 	background-color: #ffb6b6;
 }
+.alert.alert{
+	background-color: #ffb6b6;
+}
+
+#question{
+	color : black;
+	padding-left: 10px
+}
 
 .tweet-control{
 	height: 60px;
@@ -181,7 +190,7 @@ span{
 }
 
 .userUpdate {
- text-align: center;
+/* text-align: center;*/
  border-collapse: collapse;
  margin-bottom: 50px;
 }
@@ -204,3 +213,6 @@ span{
  margin: 10px;
 }
 
+#space{
+	margin:50px;
+}

@@ -232,6 +232,8 @@ public class TweetController {
 	public String view(@PathVariable Integer userId,Tweet tweet,Model model,@AuthenticationPrincipal UserDetails userDetails,RedirectAttributes ra) throws DataNotFoundException {
 		String username = userDetails.getUsername();
 		try {
+			Tweet tw = tweetService.findById(userId);
+			model.addAttribute("tweet", tw);
 			
 			List<Tweet> tweets = tweetService.findByUserId(userId);
 			//Collections.reverse(tweets);//タイムラインで時系列、上に表示

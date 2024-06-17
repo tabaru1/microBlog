@@ -1,5 +1,6 @@
 package com.example.demo.web.admin;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class FavoriteController {
 	
 	/*
 	 * 一覧表示
-	*/
+	
 	@GetMapping(value = "/mylist")
 	public String list(Favorite favorite,Model model, @AuthenticationPrincipal UserDetails userDetails,RedirectAttributes ra, Integer tweetId) {
 		// 全件取得	
@@ -46,6 +47,7 @@ public class FavoriteController {
 			User userId = userService.findById(userData.getId());
 			model.addAttribute("user", userId);
 			
+			
 			List<Favorite> favorites= favoriteService.findByUserId(userData.getId());
 			//Collections.reverse(favorites);//タイムラインで時系列、上に表示
 			model.addAttribute("favorites", favorites);
@@ -54,6 +56,54 @@ public class FavoriteController {
 //				fav.add(value);
 //			}
 			model.addAttribute("favorites", favorites);
+			Favorite ftweet = favoriteService.findByTweetIdAndUserId(tweetId,  userData.getId());
+			model.addAttribute("ftweet", ftweet);
+		} catch (DataNotFoundException e) {
+			FlashData flash = new FlashData().danger("該当データがありません");
+			ra.addFlashAttribute("flash", flash);
+			return "redirect:/microBlog/admin/favorite/mylist";		
+			}
+		return "admin/favorite/mylist";
+	}
+	
+	/*
+	 * 一覧表示
+	*/
+	@GetMapping(value = "/mylist")
+	public String list(Favorite favorite,Model model, @AuthenticationPrincipal UserDetails userDetails,RedirectAttributes ra, Integer tweetId) {
+		// 全件取得	
+		String username = userDetails.getUsername();
+		try {
+			User userData = userService.findByEmail(username);
+			User user = userService.findById(userData.getId());
+			model.addAttribute("user", user);
+			
+			
+			List<Favorite> favorites= favoriteService.findByUserId(userData.getId());
+		    Collections.sort(favorites, (f1, f2) -> f2.getTweet().getCreatedAt().compareTo(f1.getTweet().getCreatedAt()));
+			/*favorites = favorites.stream()
+					.sorted((f1, f2) -> f2.getTweet().getCreatedAt().compareTo(f1.getTweet().getCreatedAt()))
+					.collect(Collectors.toList());*/
+			/*List<Integer> tweetIds = new ArrayList<>();
+			tweetIds.add(user.getId());
+			for (Favorite value : favorites) {
+				tweetIds.add(value.getTweet().getId());	
+			}
+			List<Tweet> tweets = tweetService.findByUserIdIn(tweetIds); 
+			
+			List<Favorite> fav = new ArrayList<>();
+			fav.add(((Favorite) tweets).getTweet());*/
+			
+
+			model.addAttribute("favorites", favorites);
+			
+			//Collections.reverse(favorites);//タイムラインで時系列、上に表示
+//			model.addAttribute("favorites", favorites);
+//			List<Favorite> fav = new ArrayList<>();
+//			for (Favorite value : favorites) {
+//				fav.add(value);
+//			}
+//		    model.addAttribute("favorites", favorites);
 			Favorite ftweet = favoriteService.findByTweetIdAndUserId(tweetId,  userData.getId());
 			model.addAttribute("ftweet", ftweet);
 		} catch (DataNotFoundException e) {
@@ -90,7 +140,7 @@ public class FavoriteController {
 			return "redirect:/microBlog/admin/tweet/talk";		
 			}
 		ra.addFlashAttribute("flash", flash);
-		return "redirect:/microBlog/admin/tweet/talk";
+		return "redirect:/microBlog/admin/favorite/mylist";
 	}
 	
 	@GetMapping(value = "/delete/{tweetId}")

@@ -155,7 +155,7 @@ public class AdminUserController {
 			flash = new FlashData().danger("エラーが発生しました");
 		}
 		ra.addFlashAttribute("flash", flash);
-		return "redirect:/microBlog/admin/user";
+		return "redirect:/microBlog/admin/tweet/talk";
 	}
 
 }

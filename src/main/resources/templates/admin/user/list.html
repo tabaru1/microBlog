@@ -16,14 +16,15 @@
         </thead>
         <tbody>
 		  <tr th:each="user: ${users}" th:object="${user}"  >
-            <td th:text="*{nickname}"></td>
+            <td><a th:href="@{/microBlog/admin/tweet/view/{id}(id=*{id})}" th:text="*{nickname}" ></a></td>
             <td th:text="*{followed.size}"></td>
 			<td th:text="*{following.size}"></td>
 			<td th:if="${#lists.contains(userIds, user.id)}">フォロー中</td>
-			<td th:unless="${#lists.contains(userIds, user.id)}"><a th:href="@{/microBlog/admin/follow/create/{id}(id=*{id})}" class="nav-tweet">フォローする</a></td>
+			<td th:unless="${#lists.contains(userIds, user.id)}"><a th:href="@{/microBlog/admin/follow/create/{id}(id=*{id})}" >フォローする</a></td>
           </tr>
         </tbody>
       </table>
     </div>
   </body>
 </html>
+>

@@ -6,8 +6,13 @@
   <body>
     <div layout:fragment="content">
 		<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+			<tr th:each="tweet: ${tweet}" >
+				<td th:text="${tweet.user.nickname}"></td>
+				<th>のつぶやき</th>
+			</tr>
+			<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
 				<tr th:each="tweet: ${tweets}" th:object="${tweet}">
-					<a th:href="@{/microBlog/admin/tweet/view2/{id}(id=*{id})}" class="nav-tweet" th:text="*{user.nickname}"></a>
+					<a th:href="@{/microBlog/admin/tweet/view/{userId}(userId=*{user.id})}" class="nav-tweet" th:text="*{user.nickname}"></a>
 <!--					<td th:if="${#lists.contains(tweetIds, tweet.user.id)}"></td>-->
 <!--					<td th:unless="${#lists.contains(tweetIds, user.id)}">-->
 					
@@ -16,10 +21,11 @@
 
 				<div id="tubuyaku">
 					<div th:text="*{body}"></div>
-						<a th:href="@{/microBlog/admin/tweet/view/{userId}(userId=*{user.id})}" th:text="*{#dates.format(createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></a>
+						<a th:href="@{/microBlog/admin/tweet/view2/{id}(id=*{id})}" th:text="*{#dates.format(createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></a>
 					<div id="boder"></div>
 				</div>
 				</tr>
+			</div>
 	  		</div>
 
         </div>

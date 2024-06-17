@@ -60,7 +60,7 @@ public class FollowController {
 			return "redirect:/microBlog/admin/user";
 			}
 		ra.addFlashAttribute("flash", flash);
-		return "redirect:/microBlog/admin/user";
+		return "redirect:/microBlog/admin/tweet/talk";
 	}
 	
 	

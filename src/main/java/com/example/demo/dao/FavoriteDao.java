@@ -40,7 +40,7 @@ public class FavoriteDao implements BaseDao<Favorite> {
 	}
 
 	public List<Favorite> findByUserId(Integer userId) throws DataNotFoundException {
-		List<Favorite> favorites = this.repository.findByUserIdOrderByCreatedAtDesc(userId);
+		List<Favorite> favorites = this.repository.findByUserId(userId);
 		if (favorites == null) {
 			throw new DataNotFoundException();
 		}

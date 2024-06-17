@@ -15,15 +15,14 @@
 
 			<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
 				<tr th:each="favorite: ${favorites}" th:object="${favorite}">
-					<a th:href="@{/microBlog/admin/tweet/view2/{tweetId}(tweetId=*{tweet.id})}" class="nav-tweet" th:text="*{tweet.user.nickname}"></a>
+					<a th:href="@{/microBlog/admin/tweet/view/{tweetId}(tweetId=*{user.id})}" class="nav-tweet" th:text="*{tweet.user.nickname}"></a>
 
 			 <th:if="$ftweet != null}">
 				<a th:href="@{/microBlog/admin/favorite/delete/{tweetId}(tweetId=*{tweet.id})}" class="nav-tweet">お気に入り解除</a>
-
 			
 				<div id="tubuyaku">
 					<div th:text="*{tweet.body}"></div>
-						<a th:href="@{/microBlog/admin/tweet/view/{userId}(userId=*{user.id})}" th:text="*{#dates.format(createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></a>
+						<a th:href="@{/microBlog/admin/tweet/view2/{tweetId}(tweetId=*{tweet.id})}" th:text="*{#dates.format(tweet.createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></a>
 					<div id="boder"></div>
 				</div>
 				</tr>
