@@ -11,8 +11,6 @@
 					<td th:text="${user.nickname}"></td>
 					<th>さんのお気に入り</th>
 				</tr>
-
-
 			<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
 				<tr th:each="favorite: ${favorites}" th:object="${favorite}">
 					<a th:href="@{/microBlog/admin/tweet/view/{tweetId}(tweetId=*{user.id})}" class="nav-tweet" th:text="*{tweet.user.nickname}"></a>
